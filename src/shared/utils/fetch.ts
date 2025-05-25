@@ -1,9 +1,7 @@
-import { IRawItem } from "@/features/fileList/types/fileListTypes";
-
 /**
  * Мок функция fetch.
  */
-export async function fetchData(): Promise<IRawItem[]> {
+export async function fetchData(): Promise<unknown> {
   try {
     const response = await fetch("/data/fileList.json");
     if (!response.ok) throw new Error("Failed to fetch");

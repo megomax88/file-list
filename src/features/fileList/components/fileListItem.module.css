@@ -1,0 +1,28 @@
+.item {
+  padding: 12px 16px;
+  margin: 0;
+  border-bottom: 1px solid #eaeaea;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.2s;
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.item:hover {
+  background-color: #f8f9fa;
+}
+
+.favorite {
+  color: #fbbc04;
+  margin-left: 8px;
+}
+
+.nonFavorite {
+  color: #14120b;
+  margin-left: 8px;
+}

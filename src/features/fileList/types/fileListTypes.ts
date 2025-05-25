@@ -14,6 +14,12 @@ export enum FileExtension {
   docx = ".docx",
 }
 
+const hasProperty = <Obj, Prop extends string>(
+  obj: Obj,
+  prop: Prop
+): obj is Obj & Record<Prop, unknown> =>
+  Object.prototype.hasOwnProperty.call(obj, prop);
+
 /**
  * Входные данные об элементе списка файлов
  */
@@ -65,6 +71,16 @@ export class Item implements IRawItem {
   }
 
   /**
+   * Type guard для данных из api
+   */
+  static isCorrectApiData(item: unknown): item is IRawItem {
+    return (
+      hasProperty(item, "type") &&
+      (item.type === ItemType.dir || item.type === ItemType.file)
+    );
+  }
+
+  /**
    * Проверка, что расширение файла относится к изображениям
    */
   isImage(): boolean {
@@ -78,6 +94,6 @@ export class Item implements IRawItem {
    * Добавление дочерних элементов в поле children
    */
   addChild(item: Item): void {
-    this.children.push(item);
+    if (Item.isItem(item)) this.children.push(item);
   }
 }

@@ -4,13 +4,19 @@ import {
   ItemType,
 } from "@/features/fileList/types/fileListTypes";
 
+interface IGetNestedFileListReturnValue {
+  itemMap: Map<Item["id"], Item>;
+  idWithoutParent: number;
+}
+
 /**
  * Создать вложенный список файлов из данных api
  */
-export function getNestedFileList(items: IRawItem[]): Item[] {
+export function getNestedFileList(
+  items: IRawItem[]
+): IGetNestedFileListReturnValue {
   const itemMap = new Map<number, Item>();
-  const result: Item[] = [];
-
+  let idWithoutParent = 0;
   items.forEach((rawItem) => {
     const currentItem = itemMap.get(rawItem.id) || new Item(rawItem);
     itemMap.set(rawItem.id, currentItem);
@@ -29,9 +35,9 @@ export function getNestedFileList(items: IRawItem[]): Item[] {
       parent.addChild(currentItem);
       itemMap.set(rawItem.parentId, parent);
     } else {
-      result.push(currentItem);
+      idWithoutParent = rawItem.id;
     }
   });
 
-  return result;
+  return { itemMap, idWithoutParent };
 }
