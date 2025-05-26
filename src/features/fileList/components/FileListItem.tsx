@@ -1,10 +1,10 @@
 "use client";
 import { Item, ItemType } from "@/features/fileList/types/fileListTypes";
+import FolderIcon from "@/features/fileList/icons/FolderIcon";
+import FileIcon from "@/features/fileList/icons/FileIcon";
+import FileListItemIsFavouriteButton from "./FileListItemIsFavouriteButton";
 
 import styles from "./fileListItem.module.css";
-import FileListItemIsFavouriteButton from "./FileListItemIsFavouriteButton";
-import FolderIcon from "../icons/FolderIcon";
-import FileIcon from "../icons/FileIcon";
 
 type Props = {
   file: Item;

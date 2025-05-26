@@ -1,3 +1,5 @@
+import { hasProperty } from "@/shared/types/utilityType";
+
 /**
  * Перечисление типов элементов (папка или файл)
  */
@@ -13,12 +15,6 @@ export enum FileExtension {
   gif = ".gif",
   docx = ".docx",
 }
-
-const hasProperty = <Obj, Prop extends string>(
-  obj: Obj,
-  prop: Prop
-): obj is Obj & Record<Prop, unknown> =>
-  Object.prototype.hasOwnProperty.call(obj, prop);
 
 /**
  * Входные данные об элементе списка файлов
@@ -96,7 +92,7 @@ export class Item implements IRawItem {
   addChild(item: Item): void {
     if (Item.isItem(item)) this.children.push(item);
   }
-  
+
   /**
    * Изменение свойства IsFavorite на противоположное
    */

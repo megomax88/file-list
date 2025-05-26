@@ -41,6 +41,8 @@ export default function FileList() {
   }, [currentItemId, itemitemWithoutParent, params.folderId, setCurrentItem]);
 
   const handleClick = (id: number) => {
+    console.log(id);
+
     router.push(`/files/${id}`);
     setCurrentItem(id);
   };
