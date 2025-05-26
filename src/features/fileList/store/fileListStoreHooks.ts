@@ -6,11 +6,17 @@ import { useFileContext } from "@/features/fileList/store/fileListStoreProvider"
  */
 export const useFileActions = () => useFileContext((state) => state.actions);
 /**
- * Хук для доступа к текущему элементу
+ * Хук для доступа к id текущего элемента
  */
-export const useCurrentItem = () =>
-  useFileContext(({ items, currentItemId, error }) => {
-    if (items && currentItemId) return items?.get(currentItemId);
-    return error;
-  });
+export const useCurrentItemId = () =>
+  useFileContext((state) => state.currentItemId);
+/**
+ * Хук для доступа к коллекции
+ */
+export const useItems = () => useFileContext((state) => state.items);
 
+/**
+ * Хук для доступа к id главного родителя
+ */
+export const useItemitemWithoutParent = () =>
+  useFileContext((state) => state.itemWithoutParent);

@@ -10,9 +10,11 @@ export interface IFileStore {
   loading: boolean;
   error: string | null;
   initialized: boolean;
+  itemWithoutParent: number;
   actions: {
     initialize: () => Promise<void>;
     setCurrentItem: (id: number | null) => void;
+    toggleFavorite: (id: number) => void;
   };
 }
 
@@ -22,6 +24,7 @@ export const useFileStore = createStore<IFileStore>((set) => ({
   loading: false,
   error: null,
   initialized: false,
+  itemWithoutParent: 0,
   actions: {
     initialize: async () => {
       if (useFileStore.getState().initialized) return;
@@ -34,6 +37,7 @@ export const useFileStore = createStore<IFileStore>((set) => ({
           set({
             items: itemMap,
             currentItemId: idWithoutParent,
+            itemWithoutParent: idWithoutParent,
             initialized: true,
           });
         }
@@ -45,6 +49,25 @@ export const useFileStore = createStore<IFileStore>((set) => ({
     },
     setCurrentItem: (id) => {
       set({ currentItemId: id });
+    },
+    toggleFavorite: async (id) => {
+      // Имитация обновления на сервере
+      // const currentValue = useFileStore.getState().items?.get(id)?.isFavorite;
+      // const response = await fetch(`/api/files/${id}/favorite`, {
+      //   method: "PATCH",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ isFavorite: !currentValue }),
+      // });
+
+      // if (!response.ok) throw new Error("Request failed");
+
+      // const updatedItem = await response.json();
+
+      set((state) => {
+        state.items?.get(id)?.toggleIsFavorite();
+        const updatedItems = new Map(state.items);
+        return { items: updatedItems };
+      });
     },
   },
 }));

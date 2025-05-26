@@ -39,7 +39,7 @@ export class Item implements IRawItem {
   public readonly type: ItemType;
   public readonly parentId: number | null;
   public readonly name: string;
-  public readonly isFavorite: boolean;
+  public isFavorite: boolean;
 
   public children: Item[] = [];
   public extension: FileExtension | null = null;
@@ -95,5 +95,12 @@ export class Item implements IRawItem {
    */
   addChild(item: Item): void {
     if (Item.isItem(item)) this.children.push(item);
+  }
+  
+  /**
+   * Изменение свойства IsFavorite на противоположное
+   */
+  toggleIsFavorite(): void {
+    this.isFavorite = !this.isFavorite;
   }
 }

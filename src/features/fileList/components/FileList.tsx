@@ -1,9 +1,11 @@
 "use client";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
   useFileActions,
-  useCurrentItem,
+  useCurrentItemId,
+  useItems,
+  useItemitemWithoutParent,
 } from "@/features/fileList/store/fileListStoreHooks";
 import { Item } from "@/features/fileList/types/fileListTypes";
 import FileListItem from "./FileListItem";
@@ -15,16 +17,32 @@ import styles from "./fileList.module.css";
  */
 export default function FileList() {
   const router = useRouter();
-  const currentItem = useCurrentItem();
+  const currentItemId = useCurrentItemId() || 0;
+  const params = useParams();
+  const items = useItems();
+  const itemitemWithoutParent = useItemitemWithoutParent();
+  const currentItem = items?.get(currentItemId);
   const { initialize, setCurrentItem } = useFileActions();
 
   useEffect(() => {
     initialize();
   }, [initialize]);
 
+  // Координация url и отображаемого элемента
+  useEffect(() => {
+    if (params.folderId) {
+      const id = Number(params.folderId[1]);
+      if (currentItemId !== id) {
+        setCurrentItem(id);
+      }
+    } else {
+      setCurrentItem(itemitemWithoutParent);
+    }
+  }, [currentItemId, itemitemWithoutParent, params.folderId, setCurrentItem]);
+
   const handleClick = (id: number) => {
-    setCurrentItem(id);
     router.push(`/files/${id}`);
+    setCurrentItem(id);
   };
 
   if (!Item.isItem(currentItem)) {

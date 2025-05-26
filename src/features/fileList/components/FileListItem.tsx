@@ -1,7 +1,10 @@
-import { Item } from "@/features/fileList/types/fileListTypes";
+"use client";
+import { Item, ItemType } from "@/features/fileList/types/fileListTypes";
 
 import styles from "./fileListItem.module.css";
-import OutlinedStar from "../icons/OutlinedStar";
+import FileListItemIsFavouriteButton from "./FileListItemIsFavouriteButton";
+import FolderIcon from "../icons/FolderIcon";
+import FileIcon from "../icons/FileIcon";
 
 type Props = {
   file: Item;
@@ -14,16 +17,11 @@ type Props = {
 export default function FileListItem({ file, onClick }: Props) {
   return (
     <li className={styles.item} onClick={onClick}>
-      <span className={styles.name}>{file.name}</span>
-      {file.parentId !== null && (
-        <button
-          className={`${
-            file.isFavorite ? styles.favorite : styles.nonFavorite
-          }`}
-        >
-          <OutlinedStar />
-        </button>
-      )}
+      <div className={styles.nameIconContainer}>
+        {file.type === ItemType.dir ? <FolderIcon /> : <FileIcon />}
+        <span className={styles.name}>{file.name}</span>
+      </div>
+      {file.parentId !== null && <FileListItemIsFavouriteButton file={file} />}
     </li>
   );
 }
